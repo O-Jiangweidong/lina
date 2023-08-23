@@ -42,7 +42,6 @@ export default {
         permissions: ['perms.view_myassets']
       }
     },
-
     {
       path: `external-luna`,
       component: empty,
@@ -251,6 +250,16 @@ export default {
           }
         }
       ]
+    },
+    {
+      path: '/workbench/messages',
+      name: 'SiteMessages',
+      component: () => import('@/views/messages'),
+      meta: {
+        icon: 'assets',
+        title: i18n.t('route.SiteMessageList'),
+        permissions: []
+      }
     }
   ]
 }

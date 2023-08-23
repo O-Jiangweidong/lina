@@ -1919,6 +1919,9 @@
     "passwordWillExpiredSuffixMsg": "天 后过期，请尽快修改您的密码。"
   },
   "notifications": {
+    "AllMessages": "所有消息",
+    "ReadMessages": "已读消息",
+    "UnreadMessages": "未读消息",
     "MessageType": "消息类型",
     "Receivers": "接收人",
     "Subscription": "消息订阅",

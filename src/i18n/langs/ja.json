@@ -1926,6 +1926,9 @@
     "passwordWillExpiredSuffixMsg": "期限が切れた後、できるだけ早くパスワードを変更してください。"
   },
   "notifications": {
+    "AllMessages": "すべてのニュースです",
+    "ReadMessages": "既読メッセージです",
+    "UnreadMessages": "未読メッセージです",
     "MessageType": "メッセージタイプ",
     "Receivers": "受取人",
     "Subscription": "メッセージ購読",

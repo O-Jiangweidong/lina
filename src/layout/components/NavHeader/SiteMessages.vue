@@ -16,7 +16,9 @@
       @open="getMessages"
     >
       <div slot="title">
-        <span>{{ $t('notifications.SiteMessage') }}</span>
+        <router-link :to="{name: 'SiteMessages'}">
+          <span @click="handleClose">{{ $t('notifications.SiteMessage') }}</span>
+        </router-link>
         <div v-if="unreadMsgCount !== 0" class="msg-list-all-read-btn" @click.stop="oneClickRead(messages)">
           <a style="vertical-align: sub;"> {{ $t('notifications.AllClickRead') }}</a>
         </div>

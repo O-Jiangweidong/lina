@@ -1936,6 +1936,9 @@
     "dateLastLogin": "Date last login"
   },
   "notifications": {
+    "AllMessages": "All messages",
+    "ReadMessages": "Read messages",
+    "UnreadMessages": "Unread messages",
     "MessageType": "Message Type",
     "Receivers": "Receivers",
     "Subscription": "Subscription",

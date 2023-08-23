@@ -15,6 +15,8 @@ import ObjectRelatedFormatter from './ObjectRelatedFormatter'
 import TwoTabFormatter from './TwoTabFormatter'
 import ProtocolsFormatter from './ProtocolsFormatter.vue'
 import TagChoicesFormatter from './TagChoicesFormatter.vue'
+import BooleanTagFormatter from './BooleanTagFormatter'
+import HtmlDisplayFormatter from './HtmlDisplayFormatter'
 
 export default {
   DetailFormatter,
@@ -53,5 +55,7 @@ export {
   ObjectRelatedFormatter,
   TwoTabFormatter,
   ProtocolsFormatter,
-  TagChoicesFormatter
+  TagChoicesFormatter,
+  BooleanTagFormatter,
+  HtmlDisplayFormatter
 }

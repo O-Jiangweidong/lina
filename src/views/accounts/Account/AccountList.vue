@@ -1,22 +1,18 @@
 <template>
-  <Page v-bind="$attrs">
-    <AssetTreeTable ref="TreeTablePage" :table-config="tableConfig" :tree-setting="treeSetting">
-      <template #table>
-        <AccountListTable ref="table" v-bind="tableConfig" />
-      </template>
-    </AssetTreeTable>
-  </Page>
+  <AssetTreeTable ref="TreeTablePage" :table-config="tableConfig" :tree-setting="treeSetting">
+    <template #table>
+      <AccountListTable ref="table" v-bind="tableConfig" />
+    </template>
+  </AssetTreeTable>
 </template>
 
 <script>
-import Page from '@/layout/components/Page'
-import AssetTreeTable from '@/components/AssetTreeTable'
-import AccountListTable from '@/components/AccountListTable/AccountList'
+import AssetTreeTable from '@/components/Apps/AssetTreeTable/index.vue'
+import AccountListTable from '@/components/Apps/AccountListTable/AccountList.vue'
 
 export default {
   name: 'AssetAccountList',
   components: {
-    Page,
     AssetTreeTable,
     AccountListTable
   },
@@ -51,11 +47,11 @@ export default {
       cursor: pointer;
     }
 
-    & > > > .table-content {
+    & >>> .table-content {
       margin-left: 21px;
     }
 
-    & ::v-deep .el-table__row {
+    & >>> .el-table__row {
       height: 40px;
 
       & > td {

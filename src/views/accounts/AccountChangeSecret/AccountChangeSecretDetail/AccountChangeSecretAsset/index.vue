@@ -3,22 +3,22 @@
     <el-col :md="14" :sm="24">
       <GenericListTable
         ref="listTable"
-        :table-config="tableConfig"
         :header-actions="headerActions"
+        :table-config="tableConfig"
       />
     </el-col>
     <el-col :md="10" :sm="24">
       <AssetRelationCard type="primary" v-bind="assetRelationConfig" />
-      <RelationCard type="info" style="margin-top: 15px" v-bind="nodeRelationConfig" />
+      <RelationCard style="margin-top: 15px" type="info" v-bind="nodeRelationConfig" />
     </el-col>
   </el-row>
 </template>
 
 <script>
 import GenericListTable from '@/layout/components/GenericListTable'
-import RelationCard from '@/components/RelationCard/index'
-import AssetRelationCard from '@/components/AssetRelationCard'
-import { DeleteActionFormatter, DetailFormatter } from '@/components/TableFormatters'
+import RelationCard from '@/components/Cards/RelationCard/index'
+import AssetRelationCard from '@/components/Apps/AssetRelationCard'
+import { DeleteActionFormatter, DetailFormatter } from '@/components/Table/TableFormatters'
 
 export default {
   name: 'AccountChangeSecretAsset',
@@ -60,7 +60,7 @@ export default {
                 { assets: [row.id] }
               ).then(res => {
                 this.$message.success(this.$tc('common.deleteSuccessMsg'))
-                reload()
+                this.$store.commit('common/reload')
               }).catch(error => {
                 this.$message.error(this.$tc('common.deleteErrorMsg') + ' ' + error)
               })
@@ -92,7 +92,7 @@ export default {
         title: this.$t('accounts.AccountChangeSecret.AddAsset'),
         disabled: this.$store.getters.currentOrgIsRoot,
         canSelect: (row, index) => {
-          return this.object.assets.indexOf(row.id) === -1
+          return (this.object.assets?.map(i => i.id) || []).indexOf(row.id) === -1
         },
         performAdd: (items, that) => {
           const relationUrl = `/api/v1/accounts/change-secret/${this.object.id}/asset/add/`
@@ -104,7 +104,7 @@ export default {
         onAddSuccess: (items, that) => {
           this.$log.debug('AssetSelect value', that.assets)
           this.$message.success(this.$tc('common.updateSuccessMsg'))
-          window.location.reload()
+          this.$store.commit('common/reload')
         }
       },
       nodeRelationConfig: {

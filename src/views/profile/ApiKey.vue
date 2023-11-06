@@ -1,38 +1,71 @@
 <template>
-  <GenericListPage
-    ref="GenericListTable"
-    :table-config="tableConfig"
-    :header-actions="headerActions"
-    :help-message="helpMessage"
-  />
+  <div>
+    <GenericListPage
+      ref="GenericListTable"
+      :header-actions="headerActions"
+      :help-message="helpMessage"
+      :table-config="tableConfig"
+    />
+    <Dialog
+      :show-cancel="false"
+      :title="$tc('profile.CreateAccessKey')"
+      :visible.sync="visible"
+      width="700px"
+      @close="onClose"
+      @confirm="visible = false"
+    >
+      <el-alert type="warning">
+        {{ warningText }}
+        <div class="secret">
+          <div class="row">
+            <span class="col">ID:</span>
+            <span class="value">{{ key.id }}</span>
+          </div>
+          <div class="row">
+            <span class="col">Secret:</span>
+            <span class="value">{{ key.secret }}</span>
+          </div>
+        </div>
+      </el-alert>
+    </Dialog>
+  </div>
 </template>
 
 <script>
 import { GenericListPage } from '@/layout/components'
-import { DateFormatter, ShowKeyCopyFormatter } from '@/components/TableFormatters'
+import { DateFormatter } from '@/components/Table/TableFormatters'
+import Dialog from '@/components/Dialog/index.vue'
 
 export default {
   components: {
+    Dialog,
     GenericListPage
   },
   data() {
     const ajaxUrl = '/api/v1/authentication/access-keys/'
     return {
+      mfaUrl: '',
+      mfaDialogVisible: false,
       helpMessage: this.$t('setting.helpText.ApiKeyList'),
+      warningText: this.$t('profile.ApiKeyWarning'),
+      visible: false,
+      key: { id: '', secret: '' },
       tableConfig: {
         hasSelection: true,
         url: ajaxUrl,
+        columns: ['id', 'secret', 'is_active', 'date_created', 'date_last_used', 'actions'],
         columnsShow: {
-          min: ['id', 'actions'],
-          default: ['id', 'secret', 'is_active', 'date_created', 'actions']
+          min: ['id', 'actions']
         },
         columnsMeta: {
           id: {
-            label: 'Access Key'
+            label: 'ID'
           },
           secret: {
-            label: 'Secret Key',
-            formatter: ShowKeyCopyFormatter
+            label: 'Secret',
+            formatter: () => {
+              return '********'
+            }
           },
           date_created: {
             label: this.$t('common.DateCreated'),
@@ -65,7 +98,7 @@ export default {
                       this.getRefsListTable.reloadTable()
                       this.$message.success(this.$tc('common.updateSuccessMsg'))
                     }).catch(error => {
-                      this.$message.error(this.$tc('common.updateErrorMsg' + ' ' + error))
+                      this.$message.error(this.$t('common.updateErrorMsg') + ' ' + error)
                     })
                   }.bind(this)
                 }
@@ -75,9 +108,7 @@ export default {
         }
       },
       headerActions: {
-        hasSearch: true,
-        hasRightActions: true,
-        hasRefresh: true,
+        hasMoreActions: false,
         hasExport: false,
         hasImport: false,
         hasBulkDelete: false,
@@ -90,10 +121,8 @@ export default {
             can: () => this.$hasPerm('authentication.add_accesskey'),
             callback: function() {
               this.$axios.post(ajaxUrl).then(res => {
-                this.getRefsListTable.reloadTable()
-                this.$message.success(this.$tc('common.updateSuccessMsg'))
-              }).catch(error => {
-                this.$message.error(this.$tc('common.updateErrorMsg' + ' ' + error))
+                this.key = res
+                this.visible = true
               })
             }.bind(this)
           }
@@ -105,9 +134,32 @@ export default {
     getRefsListTable() {
       return this.$refs.GenericListTable.$refs.ListTable.$refs.ListTable || {}
     }
+  },
+  methods: {
+    onClose() {
+      this.getRefsListTable.reloadTable()
+    }
   }
 }
 </script>
 
 <style scoped>
+.secret {
+  color: #2b2f3a;
+  margin-top: 20px;
+}
+
+.row {
+  margin-bottom: 10px;
+}
+
+.col {
+  width: 100px;
+  text-align: left;
+  display: inline-block;
+}
+
+.value {
+  font-weight: 600;
+}
 </style>

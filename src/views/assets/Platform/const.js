@@ -1,6 +1,6 @@
 import i18n from '@/i18n/i18n'
-import rules from '@/components/DataForm/rules'
-import { JsonEditor } from '@/components/FormFields'
+import rules from '@/components/Form/DataForm/rules'
+import { JsonEditor } from '@/components/Form/FormFields'
 import { assetFieldsMeta } from '@/views/assets/const'
 import AutomationParamsSetting from './AutomationParamsSetting'
 
@@ -82,7 +82,8 @@ export const platformFieldsMeta = (vm) => {
       ...assetMeta.protocols,
       el: {
         choices: []
-      }
+      },
+      helpText: i18n.t('assets.SupportedProtocolHelpText')
     },
     su_method: {
       type: 'select',

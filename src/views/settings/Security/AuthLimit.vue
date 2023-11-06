@@ -1,40 +1,26 @@
 <template>
-  <div>
-    <el-button size="mini" type="primary" @click="visible = !visible">
-      {{ $t('setting.Setting') }}
-    </el-button>
-    <Dialog
-      :title="$tc('setting.AuthLimit')"
-      :visible.sync="visible"
-      :destroy-on-close="true"
-      :show-cancel="false"
-      :show-confirm="false"
-      width="70%"
-      top="10%"
-      @confirm="onConfirm()"
-    >
-      <GenericCreateUpdateForm
-        v-bind="$data"
-        :fields="fields"
-        :url="url"
-        :fields-meta="fieldsMeta"
-        :submit-method="submitMethod"
-        :has-detail-in-msg="false"
-      />
-    </Dialog>
-  </div>
-
+  <IBox>
+    <GenericCreateUpdateForm
+      :fields="fields"
+      :fields-meta="fieldsMeta"
+      :has-detail-in-msg="false"
+      :submit-method="submitMethod"
+      :url="url"
+      v-bind="$data"
+    />
+  </IBox>
 </template>
 
 <script>
 import GenericCreateUpdateForm from '@/layout/components/GenericCreateUpdateForm'
-import { Dialog } from '@/components'
+import IBox from '@/components/IBox/index.vue'
+import { BlockedIPs } from '@/components'
 
 export default {
   name: 'EmailContent',
   components: {
-    GenericCreateUpdateForm,
-    Dialog
+    IBox,
+    GenericCreateUpdateForm
   },
   data() {
     return {
@@ -56,7 +42,8 @@ export default {
             'SECURITY_LOGIN_IP_LIMIT_COUNT',
             'SECURITY_LOGIN_IP_LIMIT_TIME',
             'SECURITY_LOGIN_IP_WHITE_LIST',
-            'SECURITY_LOGIN_IP_BLACK_LIST'
+            'SECURITY_LOGIN_IP_BLACK_LIST',
+            'SECURITY_VIEW_BLOCKED_IPS'
           ]
         ],
         [
@@ -69,7 +56,18 @@ export default {
         ]
       ],
       successUrl: { name: 'Settings', params: { activeMenu: 'EmailContent' }},
-      fieldsMeta: {},
+      fieldsMeta: {
+        SECURITY_VIEW_BLOCKED_IPS: {
+          component: BlockedIPs,
+          label: this.$t('setting.BlockedIPS'),
+          el: {
+            method: 'push_account_method',
+            assets: this.asset_ids,
+            nodes: this.node_ids
+          },
+          helpText: this.$t('setting.ViewBlockedIPSHelpText')
+        }
+      },
       cleanFormValue(value) {
         const ipBlackList = value.SECURITY_LOGIN_IP_BLACK_LIST
         const ipWhiltList = value.SECURITY_LOGIN_IP_WHITE_LIST
@@ -81,7 +79,7 @@ export default {
         }
         return value
       },
-      url: '/api/v1/settings/setting/?category=security'
+      url: '/api/v1/settings/setting/?category=security_login_limit'
     }
   },
   methods: {

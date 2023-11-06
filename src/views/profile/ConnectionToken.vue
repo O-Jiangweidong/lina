@@ -1,15 +1,15 @@
 <template>
   <GenericListPage
     ref="GenericListTable"
-    :table-config="tableConfig"
     :header-actions="headerActions"
     :help-message="helpMessage"
+    :table-config="tableConfig"
   />
 </template>
 
 <script>
 import { GenericListPage } from '@/layout/components'
-import { ShowKeyCopyFormatter } from '@/components/TableFormatters'
+import { ShowKeyCopyFormatter } from '@/components/Table/TableFormatters'
 
 export default {
   name: 'ConnectionToken',
@@ -52,7 +52,7 @@ export default {
                   name: 'Expired',
                   title: this.$t('setting.Expire'),
                   type: 'info',
-                  can: ({ row }) => !row['is_expired'] && this.$hasPerm('authentication.change_connectiontoken'),
+                  can: ({ row }) => !row['is_expired'] && this.$hasPerm('authentication.expire_connectiontoken'),
                   callback: function({ row }) {
                     this.$axios.patch(`${ajaxUrl}${row.id}/expire/`,
                     ).then(res => {

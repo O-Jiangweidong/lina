@@ -34,10 +34,10 @@
 
 <script>
 import { IBox } from '@/components'
-import AutoDetailCard from '@/components/DetailCard/auto'
+import AutoDetailCard from '@/components/Cards/DetailCard/auto'
 import QuickActions from '@/components/QuickActions'
 import PlatformDetailUpdateDialog from './PlatformDetailUpdateDialog'
-import ProtocolSelector from '@/components/FormFields/ProtocolSelector'
+import ProtocolSelector from '@/components/Form/FormFields/ProtocolSelector'
 
 export default {
   name: 'Detail',
@@ -127,6 +127,22 @@ export default {
               const data = { su_enabled: val }
               this.$axios.patch(
                 `/api/v1/assets/platforms/${object.id}/`, data).then(res => {
+                this.$message.success(this.$tc('common.updateSuccessMsg'))
+              })
+            }
+          })
+        },
+        {
+          title: this.$t(`assets.SyncProtocolToAsset`),
+          attrs: {
+            type: 'primary',
+            label: this.$t('accounts.Sync')
+          },
+          callbacks: Object.freeze({
+            click: () => {
+              const data = { platform_id: this.object.id }
+              this.$axios.post(
+                '/api/v1/assets/assets/sync-platform-protocols/', data).then(res => {
                 this.$message.success(this.$tc('common.updateSuccessMsg'))
               })
             }

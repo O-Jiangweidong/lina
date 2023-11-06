@@ -4,11 +4,11 @@
 
 <script>
 import GenericCreateUpdatePage from '@/layout/components/GenericCreateUpdatePage'
-import rules from '@/components/DataForm/rules'
+import rules from '@/components/Form/DataForm/rules'
 import { userJSONSelectMeta } from '@/views/users/const'
 import { assetJSONSelectMeta } from '@/views/assets/const'
 import AccountFormatter from '@/views/perms/AssetPermission/components/AccountFormatter.vue'
-import { WeekCronSelect } from '@/components/FormFields'
+import { WeekCronSelect } from '@/components/Form/FormFields'
 
 export default {
   name: 'AclCreateUpdate',
@@ -67,7 +67,9 @@ export default {
           }
         },
         reviewers: {
-          hidden: (item) => item.action !== 'review',
+          hidden: (formValue) => {
+            return !['review', 'notice'].includes(formValue.action)
+          },
           rules: [rules.RequiredChange],
           el: {
             value: [],
@@ -80,7 +82,16 @@ export default {
           }
         }
       },
-      url: '/api/v1/acls/login-asset-acls/'
+      url: '/api/v1/acls/login-asset-acls/',
+      cleanFormValue(value) {
+        if (!Array.isArray(value.rules.ip_group)) {
+          value.rules.ip_group = value.rules.ip_group ? value.rules.ip_group.split(',') : []
+        }
+        if (!['review', 'notice'].includes(value.action)) {
+          value.reviewers = []
+        }
+        return value
+      }
     }
   },
   methods: {}

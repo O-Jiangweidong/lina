@@ -12,8 +12,8 @@
 
 <script>
 import QuickActions from '@/components/QuickActions'
-import RelationCard from '@/components/RelationCard'
-import AutoDetailCard from '@/components/DetailCard/auto'
+import RelationCard from '@/components/Cards/RelationCard'
+import AutoDetailCard from '@/components/Cards/DetailCard/auto'
 
 export default {
   name: 'UserInfo',
@@ -181,7 +181,7 @@ export default {
           key: this.$t('users.Phone'),
           formatter: () => {
             const phoneObj = this.object.phone
-            return <div>{phoneObj?.code}{phoneObj?.phone}</div>
+            return <div>{phoneObj?.code} {phoneObj?.phone}</div>
           }
         },
         'wecom_id', 'dingtalk_id', 'feishu_id',

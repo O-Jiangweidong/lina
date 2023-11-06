@@ -5,20 +5,17 @@
         <Organization v-if="$hasLicense()" class="organization" />
       </div>
       <div class="nav-title">
-        <span
-          v-show="!isCollapse"
-          style="margin-left: 5px;"
-        >
+        <span v-show="!isCollapse" style="margin-left: 5px;">
           {{ isRouteMeta.title || '' }}
         </span>
 
-        <span class="switch-view active-switch-view">
+        <span :class="switchViewOtherClasses" class="switch-view active-switch-view">
           <el-popover
             placement="right-start"
             trigger="hover"
             width="160"
           >
-            <ViewSwitcher :mode="'vertical'" />
+            <ViewSwitcher mode="vertical" />
             <svg-icon slot="reference" class="icon" icon-class="switch" />
           </el-popover>
         </span>
@@ -54,7 +51,7 @@
         <Hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
       </div>
     </div>
-    <div class="mobile-menu" :class="{'is-show': viewShown}" @click="viewShown = false">
+    <div :class="{'is-show': viewShown}" class="mobile-menu" @click="viewShown = false">
       <ViewSwitcher :mode="'vertical'" />
     </div>
   </div>
@@ -63,7 +60,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import SidebarItem from './SidebarItem'
-import Hamburger from '@/components/Hamburger'
+import Hamburger from '@/components/Widgets/Hamburger'
 import ViewSwitcher from '../NavHeader/ViewSwitcher'
 import Organization from '../NavHeader/Organization'
 import variables from '@/styles/variables.scss'
@@ -77,7 +74,8 @@ export default {
   },
   data() {
     return {
-      viewShown: false
+      viewShown: false,
+      switchViewOtherClasses: ''
     }
   },
   computed: {
@@ -125,12 +123,24 @@ export default {
       return this.currentViewRoute.meta || {}
     }
   },
+  mounted() {
+    this.setViewIconAttention()
+  },
   methods: {
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },
     toggleSwitch() {
       this.viewShown = true
+    },
+    setViewIconAttention() {
+      const t = setInterval(() => {
+        this.switchViewOtherClasses = this.switchViewOtherClasses ? '' : 'hover-switch-view'
+      }, 1000)
+      setTimeout(() => {
+        clearInterval(t)
+        this.switchViewOtherClasses = ''
+      }, 2000)
     }
   }
 }
@@ -145,6 +155,11 @@ export default {
 
   .nav-logo {
     height: 50px;
+  }
+
+  .hover-switch-view {
+    background: var(--menu-hover) !important;
+    color: var(--color-primary);
   }
 
   .nav-title {
@@ -231,8 +246,8 @@ export default {
   .mobile-menu {
     display: none;
     position: absolute;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     padding-top: 10px;
@@ -247,7 +262,7 @@ export default {
   .active-mobile {
     display: none;
 
-    & > > > .organization {
+    & >>> .organization {
       height: 48px;
       line-height: 48px;
       padding-left: 8px;
@@ -264,7 +279,7 @@ export default {
       }
     }
 
-    & > > > .title-label {
+    & >>> .title-label {
       color: white !important;
     }
 

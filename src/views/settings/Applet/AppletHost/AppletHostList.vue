@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-alert type="success">
-      {{ $t('terminal.AppletHostSelectHelpMessage') }}
+      <span v-html="$t('terminal.AppletHostSelectHelpMessage')" />
     </el-alert>
     <ListTable class="applet-host" v-bind="$data" />
   </div>
@@ -10,7 +10,7 @@
 <script>
 import { ListTable } from '@/components'
 import { openTaskPage } from '@/utils/jms'
-import { ProtocolsFormatter } from '@/components/TableFormatters'
+import { ProtocolsFormatter } from '@/components/Table/TableFormatters'
 
 export default {
   name: 'AppletHost',

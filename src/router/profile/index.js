@@ -20,7 +20,7 @@ export default {
       name: 'ProfileInfo',
       component: () => import('@/views/profile/ProfileInfo'),
       meta: {
-        title: i18n.t('users.AccountInformation'),
+        title: i18n.t('users.UserInformation'),
         icon: 'attestation',
         permissions: []
       }
@@ -30,8 +30,18 @@ export default {
       name: 'ProfileSetting',
       component: () => import('@/views/profile/ProfileUpdate/index'),
       meta: {
-        title: i18n.t('users.Profile'),
+        title: i18n.t('users.AuthSetting'),
         icon: 'personal',
+        permissions: []
+      }
+    },
+    {
+      path: '/profile/user/setting',
+      name: 'UserSetting',
+      component: () => import('@/views/profile/UserSettingUpdate/index'),
+      meta: {
+        title: i18n.t('users.UserSetting'),
+        icon: 'preference',
         permissions: []
       }
     },
@@ -43,7 +53,7 @@ export default {
       meta: { title: i18n.t('route.PersonalInformationImprovement'), permissions: [] }
     },
     {
-      path: '/profile/key',
+      path: '/profile/api-keys',
       component: () => import('@/views/profile/ApiKey'),
       name: 'ApiKey',
       meta: {
@@ -73,6 +83,17 @@ export default {
       meta: {
         title: i18n.t('common.nav.ConnectionToken'),
         icon: 'token',
+        permissions: ['authentication.view_connectiontoken']
+      }
+    },
+    {
+      path: '/profile/passkeys',
+      component: () => import('@/views/profile/PassKey.vue'),
+      name: 'Passkey',
+      meta: {
+        title: i18n.t('common.nav.PassKey'),
+        icon: 'passkey',
+        hidden: ({ settings }) => !settings['AUTH_PASSKEY'],
         permissions: ['authentication.view_connectiontoken']
       }
     }

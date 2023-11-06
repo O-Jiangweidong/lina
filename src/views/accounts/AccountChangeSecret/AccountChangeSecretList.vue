@@ -1,10 +1,10 @@
 <template>
-  <GenericListTable :table-config="tableConfig" :header-actions="headerActions" />
+  <GenericListTable :header-actions="headerActions" :table-config="tableConfig" />
 </template>
 
 <script>
 import { GenericListTable } from '@/layout/components'
-import { DetailFormatter } from '@/components/TableFormatters'
+import { DetailFormatter } from '@/components/Table/TableFormatters'
 import { openTaskPage } from '@/utils/jms'
 
 export default {
@@ -93,7 +93,7 @@ export default {
                   title: vm.$t('xpack.Execute'),
                   name: 'execute',
                   can: ({ row }) => {
-                    return row.is_active && vm.$hasPerm('accounts.add_changesecretexection')
+                    return row.is_active && vm.$hasPerm('accounts.add_changesecretexecution')
                   },
                   type: 'info',
                   disabled: ({ row }) => !row.is_active,

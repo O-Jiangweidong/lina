@@ -1,5 +1,5 @@
 import i18n from '@/i18n/i18n'
-import { DateFormatter, BooleanTagFormatter, HtmlDisplayFormatter } from '@/components/TableFormatters'
+import { DateFormatter, BooleanTagFormatter, HtmlDisplayFormatter } from '@/components/Table/TableFormatters'
 
 function getConfig() {
   const tableConfigColumns = [

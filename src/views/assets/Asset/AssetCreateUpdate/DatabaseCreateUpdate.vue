@@ -5,7 +5,7 @@
 <script>
 import BaseAssetCreateUpdate from './BaseAssetCreateUpdate'
 import { UploadKey } from '@/components'
-import rules from '@/components/DataForm/rules'
+import rules from '@/components/Form/DataForm/rules'
 
 export default {
   name: 'DatabaseCreateUpdate',
@@ -17,6 +17,9 @@ export default {
       addFieldsMeta: this.getAddFieldsMeta()
     }
   },
+  mounted() {
+    this.url = `${this.url}?platform=${this.$route.query.platform}`
+  },
   methods: {
     getAddFields() {
       const platform = this.$route.query.type
@@ -25,6 +28,9 @@ export default {
       switch (platform) {
         case 'redis':
           tlsFields = tlsFields.concat(['client_cert', 'client_key'])
+          break
+        case 'mysql':
+          tlsFields = tlsFields.concat(['client_cert', 'client_key', 'allow_invalid_cert'])
           break
         case 'mongodb':
           tlsFields = tlsFields.concat(['client_key', 'allow_invalid_cert'])

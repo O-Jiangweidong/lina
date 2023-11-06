@@ -18,12 +18,18 @@ export default {
     return {
       fields: [
         [
+          this.$t('common.Basic'),
+          [
+            'SECURITY_SERVICE_ACCOUNT_REGISTRATION'
+          ]
+        ],
+        [
           `SSH ${comp}(KoKo)`,
           [
             'TERMINAL_KOKO_SSH_ENABLED',
             'TERMINAL_PASSWORD_AUTH', 'TERMINAL_PUBLIC_KEY_AUTH',
             'TERMINAL_ASSET_LIST_SORT_BY',
-            'TERMINAL_ASSET_LIST_PAGE_SIZE', 'TERMINAL_TELNET_REGEX'
+            'TERMINAL_ASSET_LIST_PAGE_SIZE'
           ]
         ],
         [
@@ -37,20 +43,11 @@ export default {
           [
             'TERMINAL_MAGNUS_ENABLED'
           ]
-        ],
-        [
-          `Web ${comp}(Luna)`,
-          [
-            'TERMINAL_GRAPHICAL_RESOLUTION'
-          ]
         ]
       ],
       fieldsMeta: {
         TERMINAL_KOKO_SSH_ENABLED: {
           helpText: this.$i18n.t('common.Info') + ': ' + this.$i18n.t('setting.EnableKoKoSSHHelpText')
-        },
-        TERMINAL_TELNET_REGEX: {
-          type: 'input'
         },
         TERMINAL_RAZOR_ENABLED: {
           helpText: this.$i18n.t('common.Info') + ': ' + this.$i18n.t('setting.SettingInEndpointHelpText'),

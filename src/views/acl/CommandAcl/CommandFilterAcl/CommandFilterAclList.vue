@@ -8,8 +8,8 @@
 
 <script>
 import { ListTable } from '@/components'
-import { DetailFormatter } from '@/components/TableFormatters'
-import AmountFormatter from '@/components/TableFormatters/AmountFormatter.vue'
+import { DetailFormatter } from '@/components/Table/TableFormatters'
+import AmountFormatter from '@/components/Table/TableFormatters/AmountFormatter.vue'
 
 export default {
   components: {
@@ -44,8 +44,15 @@ export default {
             width: '160px',
             formatter: AmountFormatter,
             formatterArgs: {
-              routeQuery: {
-                activeTab: 'GroupUser'
+              route: 'AccountGatherList',
+              getRoute({ row }) {
+                return {
+                  name: 'CommandFilterAclList',
+                  query: {
+                    activeTab: 'CommandGroup',
+                    command_filters: row.id
+                  }
+                }
               }
             }
           }

@@ -1,19 +1,21 @@
 <template>
-  <ListTable :table-config="tableConfig" :header-actions="headerActions" />
+  <ListTable :header-actions="headerActions" :table-config="tableConfig" />
 </template>
 
 <script>
 import { ListTable } from '@/components'
-import { DetailFormatter } from '@/components/TableFormatters'
+import { DetailFormatter } from '@/components/Table/TableFormatters'
 
 export default {
   components: {
     ListTable
   },
   data() {
+    const _id = this.$route.query.command_filters
+    const url = `/api/v1/acls/command-groups/${_id ? `?command_filters=${_id}` : ''}`
     return {
       tableConfig: {
-        url: '/api/v1/acls/command-groups/',
+        url: url,
         permissions: {
           app: 'acls',
           resource: 'commandgroup'
